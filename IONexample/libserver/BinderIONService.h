@@ -23,7 +23,7 @@ public:
     virtual void stop();
 	virtual void setVal(int32_t val);
 	virtual int32_t getVal();
-    virtual int32_t getIonBufFd() { return ion_buf_fd; }
+    virtual int32_t getIonBufFd(Parcel & reply) { return ion_buf_fd; }
 private:
     void initializeION();
     void destroyION();

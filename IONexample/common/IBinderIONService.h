@@ -19,7 +19,7 @@ public:
 	virtual void start () = 0;
 	virtual void setVal(int32_t val) = 0;
 	virtual int32_t getVal() = 0;
-	virtual int32_t getIonBufFd() = 0;
+	virtual int32_t getIonBufFd(Parcel & reply) = 0;
 };
 
 class BnBinderIONService : public BnInterface<IBinderIONService> {

@@ -77,8 +77,8 @@ void BinderIONService::initializeION()
     ioctl(main_ion_fd, ION_IOC_FREE, &handle_data);
     ion_buf_fd = ion_info_fd.fd;
 
-    ALOGE("\n[child] ion mem content: %s\n", (char *)vaddr);
-    ALOGE("\n[child] new ion buffer handle: 0x%x, old: 0x%x, fd: %d main_ion_fd: %d\n",
+    ALOGE("\n[ion server] ion mem content: %s\n", (char *)vaddr);
+    ALOGE("\n[ion server] new ion buffer handle: 0x%x, old: 0x%x, fd: %d main_ion_fd: %d\n",
             ion_info_fd.handle,
             alloc.handle,
             ion_buf_fd,

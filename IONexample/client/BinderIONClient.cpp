@@ -14,6 +14,7 @@ void client_use_ion_buf(int ion_buf_fd);
 
 int main(int __attribute__ ((unused)) argc, char** __attribute__ ((unused)) argv) {
     int ion_buf_fd = -1;
+    Parcel reply;
 
     /* opening ion dev */
     main_ion_fd = open(ION_DEV_NAME, O_RDONLY);
@@ -29,7 +30,7 @@ int main(int __attribute__ ((unused)) argc, char** __attribute__ ((unused)) argv
 	sp<IBinderIONService> mBinderIONService = IBinderIONService::asInterface(binder);
 	mBinderIONService->start();
 	//mBinderIONService->setVal(3);
-    ion_buf_fd = mBinderIONService->getIonBufFd();
+    ion_buf_fd = mBinderIONService->getIonBufFd(reply);
 	//ALOGE("value is %d\n", mBinderIONService->getVal());
 	//ALOGE("ion buf fd is %d pid: %d\n", ion_buf_fd, getpid());
 	printf("ion buf fd is %d pid: %d\n", ion_buf_fd, getpid());
@@ -43,7 +44,7 @@ void client_use_ion_buf(int ion_buf_fd)
     void * vaddr = NULL;
 
 
-    printf("\n[parent] ion_buf_fd: %d main_ion_fd: %d\n",
+    printf("\n[ion client] ion_buf_fd: %d main_ion_fd: %d\n",
             ion_buf_fd, main_ion_fd);
 
     /* import ion buffer */
@@ -61,7 +62,7 @@ void client_use_ion_buf(int ion_buf_fd)
             PROT_READ | PROT_WRITE,
             MAP_SHARED,
             ion_buf_fd, 0);
-    printf("\n[parent] ion mem content: %s\n", (char *)vaddr);
+    printf("\n[ion client] ion mem content: %s\n", (char *)vaddr);
 
     if (ion_buf_fd > 0) {
         struct ion_handle_data handle_data;
