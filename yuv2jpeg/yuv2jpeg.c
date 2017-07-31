@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <jpeglib.h>
 #include <setjmp.h>
+#include <string.h>
 
 int jpeg_enc_yv12(unsigned char* buffer, int width, int height, int quality, char* filename)
 {
@@ -48,8 +49,10 @@ int jpeg_enc_yv12(unsigned char* buffer, int width, int height, int quality, cha
         JSAMPROW *rpU = (JSAMPROW*)malloc(sizeof(JSAMPROW) * height);
         JSAMPROW *rpV = (JSAMPROW*)malloc(sizeof(JSAMPROW) * height);
         pp[0] = rpY;
-        pp[1] = rpU;
-        pp[2] = rpV;
+        /*pp[1] = rpU;*/
+        /*pp[2] = rpV;*/
+        pp[1] = rpV;
+        pp[2] = rpU;
         int k;
         if(rpY == NULL && rpU == NULL && rpV == NULL)
         {
@@ -104,9 +107,10 @@ int main(int argc, char ** argv)
 {
 	int c, fd,  input = -1;
 	char * input_file="capture1.yuv";
+	char outfile_name[20] = {0};
 	int width=320, height =240;
 	unsigned int size;
-	int qualite = 90;
+	int qualite = 100;
 	 unsigned char *buffer;
 	 int verbose=0;
 	
@@ -150,8 +154,11 @@ int main(int argc, char ** argv)
 		exit(-1);
 	}
 	
+	strcat(outfile_name, strtok(input_file,"."));
+	strcat(outfile_name, ".jpg");
+	printf("outfile name : %s\n", outfile_name);
     
-	jpeg_enc_yv12(buffer, width, height, qualite, "test.jpg");
+	jpeg_enc_yv12(buffer, width, height, qualite, outfile_name);
 	free(buffer);
 	close(fd);
 	return 0;
