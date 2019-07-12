@@ -1,0 +1,5 @@
+The demo will show you how to dump function call trace. 
+
+$ copy CallStackDemo ${android-root-dir}/external
+$ cd ${android-root-dir}
+$ mmm external/CallStackDemo
